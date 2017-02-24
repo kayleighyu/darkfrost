@@ -2,6 +2,7 @@ var axios = require('axios');
 var apiKey = require('./secrets').darkskyAPIKey;
 var url = `https://api.darksky.net/forecast/${apiKey}/37.8267,-122.4233`;
 var sample = require('./sampleModule');
+
 // console.log(sample);
 // sample.a();
 // sample.b();
@@ -15,7 +16,7 @@ var sample = require('./sampleModule');
 //       console.log(err);
 //     }); //failure or error
 
-axios.get(url)
+  axios.get(url)
       .then(function(response){
         return response.data;
       })
