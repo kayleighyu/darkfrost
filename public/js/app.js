@@ -39,3 +39,26 @@ var currentlyWidget = new Vue({
           });
   }
 });
+
+var dailyWidget = new Vue({
+  el: '#daily',
+  data:{
+    dailySummary: 'dailySummary',
+    dailyIcon: 'dailyIcon',
+  },
+  methods: {
+    dailyIconUrl: function(iconString){
+      return `/images/${iconString}.png`;
+    }
+  },
+  created: function(){
+    axios.get('/weather/29.1,-81.4')
+          .then(function(response){
+            dailyWidget.dailySummary = response.data.daily.summary;
+            dailyWidget.dailyIcon = response.data.daily.icon;
+          })
+          .catch(function(err){
+            console.log(err);
+          })
+  }
+});
