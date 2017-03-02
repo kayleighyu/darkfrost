@@ -1,3 +1,11 @@
 body {
   background-color:white;
 }
+
+#currently, #daily {
+  border: 1px solid black;
+  text-align:center;
+  width:500px;
+  height:500px;
+  margin: 20px auto;
+}
