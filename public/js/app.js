@@ -14,11 +14,32 @@ var currentlyWidget = new Vue({
     apparentTemperature: 77,
     precipProbability: 0.30,
     humidity: 0.61,
-    location: 'Gainesville, FL'
+    location: 'Gainesville, FL',
+    latitude: 29.1,
+    longitude: -81.4
   },
   methods: {
     iconUrl: function(iconString){
       return `/images/${iconString}.png`;
+    },
+    updateWeather: function(){
+      var url = `/weather/${this.latitude},${this.longitude}`;
+      console.log(url);
+      axios.get(url)
+            .then(function(response){
+              console.log(response.data);
+              currentlyWidget.time = response.data.currently.time;
+              currentlyWidget.summary = response.data.currently.summary;
+              currentlyWidget.icon = response.data.currently.icon;
+              currentlyWidget.apparentTemperature = response.data.currently.apparentTemperature;
+              currentlyWidget.precipProbability = response.data.currently.precipProbability;
+              currentlyWidget.humidity = response.data.currently.humidity;
+              currentlyWidget.location = response.data.currently.location;
+              console.log(this.time);
+            })
+            .catch(function(err){
+              console.log(err);
+            });
     }
   },
   created: function(){
