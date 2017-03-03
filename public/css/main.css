@@ -5,7 +5,7 @@ body {
   margin: 0 auto;
 }
 
-#currently, #daily, #hourly{
+#currently, #daily, #hourly, #minutely{
   display:inline-block;
   float:left;
   border: 1px solid black;

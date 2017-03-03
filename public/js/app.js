@@ -4,7 +4,6 @@
 //     message: 'Hello Vue!'
 //   }
 // });
-
 var currentlyWidget = new Vue({
   el:'#currently',
   data:{
@@ -37,7 +36,6 @@ var currentlyWidget = new Vue({
               currentlyWidget.precipProbability = response.data.currently.precipProbability;
               currentlyWidget.humidity = response.data.currently.humidity;
               currentlyWidget.location = response.data.currently.location;
-              console.log(this.time);
             })//if i want to use this inside a function, then put .bind(this) at the end of the .then function
             .catch(function(err){
               console.log(err);
@@ -51,12 +49,14 @@ var currentlyWidget = new Vue({
     this.getWeather(29.1, -81.4);
   }
 });
+console.log(currentlyWidget.summary);
 
 var dailyWidget = new Vue({
   el: '#daily',
   data:{
     dailySummary: 'dailySummary',
     dailyIcon: 'dailyIcon',
+    days: []
   },
   methods: {
     dailyIconUrl: function(iconString){
@@ -68,6 +68,7 @@ var dailyWidget = new Vue({
           .then(function(response){
             dailyWidget.dailySummary = response.data.daily.summary;
             dailyWidget.dailyIcon = response.data.daily.icon;
+            dailyWidget.days = response.data.daily.data;
           })
           .catch(function(err){
             console.log(err);
@@ -83,10 +84,10 @@ var hourlyWidget = new Vue({
     hours: []
   },
   methods: {
-    getMainIcon: function(){
-      return `/images/${this.icon}.png`;
-    },
-    getHourlyIcon: function(iconString){
+    // getMainIcon: function(){
+    //   return `/images/${this.icon}.png`;
+    // },
+    getIcon: function(iconString){
       return `/images/${iconString}.png`;
     },
     getDate: function(seconds){
@@ -116,5 +117,47 @@ var hourlyWidget = new Vue({
   },
   created: function(){
     this.getHourlyWeather(29.1, -81.4);
+  }
+});
+
+var minutelyWidget = new Vue({
+  el: '#minutely',
+  data: {
+    summary: "it's going rain!",
+    icon: 'clear-night',
+    minutes: []
+  },
+  methods: {
+    // getMainIcon: function(){
+    //   return `/images/${this.icon}.png`;
+    // },
+    getIcon: function(iconString){
+      return `/images/${iconString}.png`;
+    },
+    getDate: function(seconds){
+      var date = new Date(seconds * 1000);
+      var month = date.getMonth();
+      var year = date.getFullYear();
+      var day = date.getDate();
+      var hour = date.getHours();
+      var minutes = date.getMinutes();
+      return `${month + 1}/${day}/${year} ${hour}:${minutes < 9 ? '0' + minutes : minutes}`;
+    },
+    getMinutelyWeather: function(lat, lon){
+      var url = `/weather/${lat},${lon}`;
+      axios.get(url)
+            .then(function(response){
+              var minutelyData = response.data.minutely;
+              this.summary = minutelyData.summary;
+              this.icon = minutelyData.icon;
+              this.minutes = minutelyData.data;
+            }.bind(this))
+            .catch(function(errors){
+              console.log(errors);
+            });
+    }
+  },
+  created: function(){
+    this.getMinutelyWeather(29.1, -81.4);
   }
 });

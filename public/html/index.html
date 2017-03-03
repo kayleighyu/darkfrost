@@ -43,6 +43,11 @@
       <main>
         <h4>{{ dailySummary }}</h4>
         <img :src="dailyIconUrl(dailyIcon)" alt="">
+        <ul>
+          <li v-for="day in days">
+            {{ day.summary }} - {{ day.apparentTemperature }}
+          </li>
+        </ul>
       </main>
       <footer>
 
@@ -53,12 +58,27 @@
         <div>
           {{ summary }}
         </div>
-        <img :src="getMainIcon()" alt="">
+        <img :src="getIcon(this.icon)" alt="">
       </header>
       <main>
         <ul>
           <li v-for="hour in hours">
-            <img :src="getHourlyIcon(hour.icon)" alt=""> - {{ hour.summary }} - {{ hour.apparentTemperature }} - {{ getDate(hour.time) }}
+            <img :src="getIcon(hour.icon)" alt=""> - {{ hour.summary }} - {{ hour.apparentTemperature }} - {{ getDate(hour.time) }}
+          </li>
+        </ul>
+      </main>
+    </div>
+    <div id="minutely">
+      <header>
+        <div>
+          {{ summary }}
+        </div>
+        <img :src="getIcon(this.icon)" alt="">
+      </header>
+      <main>
+        <ul>
+          <li v-for="minute in minutes">
+            {{ minute.precipIntensity }} - {{ minute.precipProbability }} - {{ getDate(minute.time) }}
           </li>
         </ul>
       </main>
