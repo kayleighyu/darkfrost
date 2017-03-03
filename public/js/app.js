@@ -19,6 +19,8 @@ var currentlyWidget = new Vue({
     longitude: -81.4
   },
   methods: {
+    // getLatLon: function(){
+    // },
     iconUrl: function(iconString){
       return `/images/${iconString}.png`;
     },
@@ -36,7 +38,7 @@ var currentlyWidget = new Vue({
               currentlyWidget.humidity = response.data.currently.humidity;
               currentlyWidget.location = response.data.currently.location;
               console.log(this.time);
-            })
+            })//if i want to use this inside a function, then put .bind(this) at the end of the .then function
             .catch(function(err){
               console.log(err);
             });
@@ -70,5 +72,49 @@ var dailyWidget = new Vue({
           .catch(function(err){
             console.log(err);
           })
+  }
+});
+
+var hourlyWidget = new Vue({
+  el: '#hourly',
+  data: {
+    summary: "it's going rain!",
+    icon: 'clear-night',
+    hours: []
+  },
+  methods: {
+    getMainIcon: function(){
+      return `/images/${this.icon}.png`;
+    },
+    getHourlyIcon: function(iconString){
+      return `/images/${iconString}.png`;
+    },
+    getDate: function(seconds){
+      var date = new Date(seconds * 1000);
+      var month = date.getMonth();
+      var year = date.getFullYear();
+      var day = date.getDate();
+      var hour = date.getHours();
+      var minutes = date.getMinutes();
+      return `${month + 1}/${day}/${year} ${hour}:${minutes < 9 ? '0' + minutes : minutes}`;
+      console.log(date);
+    },
+    getHourlyWeather: function(lat, lon){
+      var url = `/weather/${lat},${lon}`;
+      axios.get(url)
+            .then(function(response){
+              var hourlyData = response.data.hourly;
+              console.log(hourlyData);
+              this.summary = hourlyData.summary;
+              this.icon = hourlyData.icon;
+              this.hours = hourlyData.data;
+            }.bind(this))
+            .catch(function(errors){
+              console.log(errors);
+            });
+    }
+  },
+  created: function(){
+    this.getHourlyWeather(29.1, -81.4);
   }
 });
