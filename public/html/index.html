@@ -6,25 +6,41 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>DarkFrost</title>
   <link rel="stylesheet" href="css/main.css">
+  <link href="https://fonts.googleapis.com/css?family=Antic" rel="stylesheet">
   <script src="https://unpkg.com/vue"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
-  <div id="weatherDiv">
+    <img class="background-image" src="/images/background-cloudy.jpg" alt="">
+    <div id="navDiv">
+      <div id="nav-anchor"></div>
+      <nav>
+        <div id="locationDiv">{{ location }}</div>
+        <section>
+          <ul>
+            <li><a href="#currently">Currently</a></li>
+            <li><a href="#daily">Daily</a></li>
+            <li><a href="#hourly">Hourly</a></li>
+            <li><a href="#minutely">Minutely</a></li>
+          </ul>
+        </section>
+        <div class="input">
+          <input class="inputField" type="text" placeholder="Enter any location" v-model="address">
+          <button class="button" v-on:click="updateWeather()"><img class="search-icon" src="../images/search-icon.png" alt=""></button>
+        </div>
+      </nav>
+    </div>
+    <div class="break"></div>
+    <div id="blank"></div>
     <div id="currently">
       <header>
-        <input type="text" placeholder="lattitude" v-model="latitude">
-        <input type="text" placeholder="longitude" v-model="longitude">
-        <button v-on:click="updateWeather()">Update Weather</button>
-        <h4>{{ location }}</h4>
-        <h1>Current Weather</h1>
+        <h1>{{ summary }}</h1>
       </header>
       <main>
         <div>
-          <h1>{{ apparentTemperature }}</h1>
+          <h1 class="apparentTemp">{{ apparentTemperature }}<span class="fareinheit">&deg;F</span></h1>
         </div>
         <div>
-          <h2>{{ summary }}</h2>
           <div><img :src="iconUrl(icon)" alt=""></div>
         </div>
         <div>
@@ -55,6 +71,7 @@
     </div>
     <div id="hourly">
       <header>
+        <h1>Hourly Weather</h1>
         <div>
           {{ summary }}
         </div>
@@ -70,6 +87,7 @@
     </div>
     <div id="minutely">
       <header>
+        <h1>Minutely Weather</h1>
         <div>
           {{ summary }}
         </div>
@@ -83,11 +101,16 @@
         </ul>
       </main>
     </div>
-  </div>
 
   <!-- <div id="app">
     <p>{{ message }}</p>
   </div> -->
   <script src="js/app.js"></script>
+  <script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+  <script src="js/navshrink.js"></script>
+
 </body>
 </html>

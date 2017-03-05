@@ -4,6 +4,37 @@
 //     message: 'Hello Vue!'
 //   }
 // });
+
+var navWidget = new Vue({
+  el: '#navDiv',
+  data: {
+    address: '',
+    location: 'Gainesville, FL'
+  },
+  methods: {
+    updateWeather: function(){
+      axios.get(`/location/${this.address}`)
+            .then(function(response){
+              console.log('location object:');
+              console.log(response.data);
+              navWidget.lat = response.data.results[0].geometry.location.lat;
+              navWidget.lon = response.data.results[0].geometry.location.lng;
+              navWidget.location = response.data.results[0].formatted_address;
+
+              currentlyWidget.getWeather(navWidget.lat,navWidget.lon);
+              dailyWidget.getDailyWeather(navWidget.lat,navWidget.lon);
+              hourlyWidget.getHourlyWeather(navWidget.lat,navWidget.lon);
+              minutelyWidget.getMinutelyWeather(navWidget.lat,navWidget.lon);
+
+              // currentlyWidget.location = response.data.
+            })
+            .catch(function(err){
+              console.log(err);
+            });
+    }
+  }
+});
+
 var currentlyWidget = new Vue({
   el:'#currently',
   data:{
@@ -13,9 +44,10 @@ var currentlyWidget = new Vue({
     apparentTemperature: 77,
     precipProbability: 0.30,
     humidity: 0.61,
+    address: '',
     location: 'Gainesville, FL',
-    latitude: 29.1,
-    longitude: -81.4
+    lat: 10,
+    lon: -10,
   },
   methods: {
     // getLatLon: function(){
@@ -25,7 +57,6 @@ var currentlyWidget = new Vue({
     },
     getWeather: function(lat, lon){
       var url = `/weather/${lat},${lon}`;
-      console.log(url);
       axios.get(url)
             .then(function(response){
               console.log(response.data);
@@ -35,44 +66,46 @@ var currentlyWidget = new Vue({
               currentlyWidget.apparentTemperature = response.data.currently.apparentTemperature;
               currentlyWidget.precipProbability = response.data.currently.precipProbability;
               currentlyWidget.humidity = response.data.currently.humidity;
-              currentlyWidget.location = response.data.currently.location;
             })//if i want to use this inside a function, then put .bind(this) at the end of the .then function
             .catch(function(err){
               console.log(err);
             });
     },
-    updateWeather: function(){
-      this.getWeather(this.latitude, this.longitude);
-    }
   },
   created: function(){
     this.getWeather(29.1, -81.4);
   }
 });
-console.log(currentlyWidget.summary);
 
 var dailyWidget = new Vue({
   el: '#daily',
   data:{
     dailySummary: 'dailySummary',
     dailyIcon: 'dailyIcon',
-    days: []
+    days: [],
+    latitude: 29.1,
+    longitude: -81.4,
+    location: 'gainesville'
   },
   methods: {
     dailyIconUrl: function(iconString){
       return `/images/${iconString}.png`;
-    }
+    },
+    getDailyWeather: function(lat, lon){
+      var url = `/weather/${lat},${lon}`;
+      axios.get(url)
+            .then(function(response){
+              dailyWidget.dailySummary = response.data.daily.summary;
+              dailyWidget.dailyIcon = response.data.daily.icon;
+              dailyWidget.days = response.data.daily.data;
+            })
+            .catch(function(err){
+              console.log(err);
+            })
+    },
   },
   created: function(){
-    axios.get('/weather/29.1,-81.4')
-          .then(function(response){
-            dailyWidget.dailySummary = response.data.daily.summary;
-            dailyWidget.dailyIcon = response.data.daily.icon;
-            dailyWidget.days = response.data.daily.data;
-          })
-          .catch(function(err){
-            console.log(err);
-          })
+    this.getDailyWeather(29.1, -81.4);
   }
 });
 
@@ -81,7 +114,9 @@ var hourlyWidget = new Vue({
   data: {
     summary: "it's going rain!",
     icon: 'clear-night',
-    hours: []
+    hours: [],
+    latitude: 29.1,
+    longitude: -81.4,
   },
   methods: {
     // getMainIcon: function(){
@@ -125,7 +160,9 @@ var minutelyWidget = new Vue({
   data: {
     summary: "it's going rain!",
     icon: 'clear-night',
-    minutes: []
+    minutes: [],
+    latitude: 29.1,
+    longitude: -81.4
   },
   methods: {
     // getMainIcon: function(){

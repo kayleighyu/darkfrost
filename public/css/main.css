@@ -1,20 +1,121 @@
 body {
-  background-color:white;
+  background-color: rgba(0,0,0,0.8);
+  font-family: Arial, sans-serif;
+  padding:0;
+  margin:0;
+  color:white;
 }
-#weatherDiv{
-  margin: 0 auto;
+.apparentTemp{
+  font-size:200px;
+  margin-top:0;
 }
-
-#currently, #daily, #hourly, #minutely{
+.fareinheit{
+  font-size:100px;
+  position:relative;
+  top:-50px;
+}
+nav {
   display:inline-block;
+  padding:0;
+  margin-top:10px;
+  width:100%;
+  top:0;
+}
+nav ul{
   float:left;
-  border: 1px solid black;
-  text-align:center;
-  width:300px;
-  height:400px;
-  margin:20px;
+  text-align: center;
+  padding:0;
+  margin:25px;
+}
+nav ul li{
+  display:inline-block;
+  padding:0;
+  margin:0 25px;
+}
+nav li a {
+    color:rgb(50,50,50);
+    font-weight:700;
+    text-decoration: none;
+}
+nav li a:hover {
+    color:white;
+}
+a.nav-active {
+    color:white;
+}
+.background-image {
+  position: fixed;
+  z-index: -1;
+  width:100%;
+  opacity: 0.5;
+}
+.inputField {
+  height:35px;
+  width:200px;
+  padding-left:10px;
+  background-color: rgba(0,0,0,0.3);
+  border:none;
+  color:white;
+  border-radius: 30px;
+  position:relative;
+  top:-8px;
+}
+.button:hover{
+  color:white;
+}
+.search-icon{
+  width:26px;
+}
+.button {
+  font-family: arial, sans-serif;
+  border:none;
+  padding:8px;
+  height:40px;
+  width:40px;
+  color:white;
+  background-color:transparent;
+  background-repeat:no-repeat;
+  background-size:100%;
+  opacity: 0%;
+}
+#locationDiv{
+  float:left;
+  margin:10px;
+  font-size:30px;
+}
+section{
+  width:500px;
+  margin:0 auto;
+  text-align: center;
+}
+nav.stick {
+    position: fixed;
+    top: 0;
+    z-index: 10000;
+    margin-top:-3px;
+    -webkit-transition-property: margin-top;
+    transition-duration:  0.5s;
+    background-color:rgba(0,0,0,0.4);
+    height:55px;
 }
 
+.input {
+  margin:15px 20px;
+  padding:0;
+  display: inline-block;
+  float:right;
+}
+
+.break{
+  clear:both;
+}
+#currently, #daily, #hourly, #minutely{
+  text-align:center;
+  margin:0 auto;
+  padding-top:60px;
+  padding-bottom:60px;
+
+}
 img {
   width:150px;
 }
