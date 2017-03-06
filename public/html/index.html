@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>DarkFrost</title>
   <link rel="stylesheet" href="css/main.css">
-  <link href="https://fonts.googleapis.com/css?family=Antic" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
   <script src="https://unpkg.com/vue"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
-    <img class="background-image" src="/images/background-cloudy.jpg" alt="">
     <div id="navDiv">
       <div id="nav-anchor"></div>
       <nav>
@@ -38,32 +38,35 @@
       </header>
       <main>
         <div>
-          <h1 class="apparentTemp">{{ apparentTemperature }}<span class="fareinheit">&deg;F</span></h1>
+          <h1 class="apparentTemp">{{ Math.round(apparentTemperature) }}<span class="fareinheit">&deg;F</span></h1>
+          <h3>Precipitation: {{ precipProbability }} | Humidity: {{ humidity * 100}}%</h3>
         </div>
         <div>
-          <div><img :src="iconUrl(icon)" alt=""></div>
-        </div>
-        <div>
-          <h3>{{ precipProbability }}</h3>
-          <h3>{{ humidity }}</h3>
+          <div><img :src="iconUrl(icon)" class="background-image" alt=""></div>
         </div>
       </main>
       <footer>
-        <h4>{{ time }}</h4>
+        <h1 class="date">{{ getDate(time) }}</h1>
       </footer>
     </div>
     <div id="daily">
       <header>
-        <h1>Daily Weather</h1>
+        <h1>{{ dailySummary }}</h1>
       </header>
       <main>
-        <h4>{{ dailySummary }}</h4>
-        <img :src="dailyIconUrl(dailyIcon)" alt="">
-        <ul>
-          <li v-for="day in days">
-            {{ day.summary }} - {{ day.apparentTemperature }}
-          </li>
-        </ul>
+        <!-- <img :src="dailyIconUrl(dailyIcon)" alt=""> -->
+        <table id="dailyTable">
+          <thead>
+            <th>Day</th>
+            <th>Forecast</th>
+          </thead>
+          <tbody>
+            <tr v-for="day in days">
+              <td class="column1">{{ getDate(day.time) }}</td>
+              <td>{{ day.summary }}</td>
+            </tr>
+          </tbody>
+        </table>
       </main>
       <footer>
 
@@ -71,10 +74,7 @@
     </div>
     <div id="hourly">
       <header>
-        <h1>Hourly Weather</h1>
-        <div>
-          {{ summary }}
-        </div>
+        <h1>{{ summary }}</h1>
         <img :src="getIcon(this.icon)" alt="">
       </header>
       <main>
@@ -87,10 +87,7 @@
     </div>
     <div id="minutely">
       <header>
-        <h1>Minutely Weather</h1>
-        <div>
-          {{ summary }}
-        </div>
+        <h1>{{ summary }}</h1>
         <img :src="getIcon(this.icon)" alt="">
       </header>
       <main>

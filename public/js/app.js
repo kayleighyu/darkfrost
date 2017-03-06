@@ -53,7 +53,7 @@ var currentlyWidget = new Vue({
     // getLatLon: function(){
     // },
     iconUrl: function(iconString){
-      return `/images/${iconString}.png`;
+      return `/images/${iconString}.jpg`;
     },
     getWeather: function(lat, lon){
       var url = `/weather/${lat},${lon}`;
@@ -71,6 +71,22 @@ var currentlyWidget = new Vue({
               console.log(err);
             });
     },
+    getDate: function(seconds){
+      var date = new Date(seconds * 1000);
+      var month = date.getMonth();
+      var year = date.getFullYear();
+      var day = date.getDate();
+      var hour = date.getHours();
+      var minutes = date.getMinutes();
+      //return `${month + 1}/${day}/${year} ${hour}:${minutes < 9 ? '0' + minutes : minutes}`;
+      var monthNames = [
+        "January", "February", "March",
+        "April", "May", "June", "July",
+        "August", "September", "October",
+        "November", "December"
+      ];
+      return monthNames[month] + ' ' + day  + ', ' + year;
+    }
   },
   created: function(){
     this.getWeather(29.1, -81.4);
@@ -81,27 +97,40 @@ var dailyWidget = new Vue({
   el: '#daily',
   data:{
     dailySummary: 'dailySummary',
-    dailyIcon: 'dailyIcon',
+    // dailyIcon: 'dailyIcon',
     days: [],
     latitude: 29.1,
     longitude: -81.4,
-    location: 'gainesville'
+    location: 'gainesville',
+    time: ''
   },
   methods: {
-    dailyIconUrl: function(iconString){
-      return `/images/${iconString}.png`;
-    },
+    // dailyIconUrl: function(iconString){
+    //   return `/images/${iconString}.png`;
+    // },
     getDailyWeather: function(lat, lon){
       var url = `/weather/${lat},${lon}`;
       axios.get(url)
             .then(function(response){
               dailyWidget.dailySummary = response.data.daily.summary;
-              dailyWidget.dailyIcon = response.data.daily.icon;
+              // dailyWidget.dailyIcon = response.data.daily.icon;
               dailyWidget.days = response.data.daily.data;
+              dailyWidget.time = response.data.daily.data.time;
             })
             .catch(function(err){
               console.log(err);
             })
+    },
+    getDate: function(seconds){
+      var date = new Date(seconds * 1000);
+      var dayIndex = date.getDay();
+      var weekday = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      var date = new Date(seconds * 1000);
+      var month = date.getMonth();
+      var year = date.getFullYear();
+      var day = date.getDate();
+      return `${weekday[dayIndex]} ${month + 1}/${day}/${year}`;
+      return ;
     },
   },
   created: function(){

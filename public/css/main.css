@@ -3,11 +3,18 @@ body {
   font-family: Arial, sans-serif;
   padding:0;
   margin:0;
-  color:white;
+  color: white;
+}
+.date{
+  font-family: Pacifico, sans-serif;
+  font-size: 30px;
+  color:rgba(255,255,255,0.5);
+  margin-top: 0;
 }
 .apparentTemp{
   font-size:200px;
   margin-top:0;
+  margin-bottom:0;
 }
 .fareinheit{
   font-size:100px;
@@ -20,6 +27,7 @@ nav {
   margin-top:10px;
   width:100%;
   top:0;
+  font-family: 'lato', sans-serif;
 }
 nav ul{
   float:left;
@@ -33,7 +41,7 @@ nav ul li{
   margin:0 25px;
 }
 nav li a {
-    color:rgb(50,50,50);
+    color: #a6a6a6;
     font-weight:700;
     text-decoration: none;
 }
@@ -45,8 +53,11 @@ a.nav-active {
 }
 .background-image {
   position: fixed;
+  top:0;
+  left:0;
   z-index: -1;
   width:100%;
+  height:100%;
   opacity: 0.5;
 }
 .inputField {
@@ -58,10 +69,10 @@ a.nav-active {
   color:white;
   border-radius: 30px;
   position:relative;
-  top:-8px;
+  top:-15px;
 }
 .button:hover{
-  color:white;
+  cursor:pointer;
 }
 .search-icon{
   width:26px;
@@ -77,11 +88,23 @@ a.nav-active {
   background-repeat:no-repeat;
   background-size:100%;
   opacity: 0%;
+  position: relative;
+  top:-10px;
 }
 #locationDiv{
   float:left;
   margin:10px;
   font-size:30px;
+  color: #a6a6a6;
+}
+#dailyTable{
+  text-align: left;
+}
+#dailyTable th, td{
+  padding:10px;
+}
+.column1{
+  width:200px;
 }
 section{
   width:500px;
@@ -112,10 +135,7 @@ nav.stick {
 #currently, #daily, #hourly, #minutely{
   text-align:center;
   margin:0 auto;
-  padding-top:60px;
+  padding-top:40px;
   padding-bottom:60px;
-
-}
-img {
-  width:150px;
+  width:60%;
 }
