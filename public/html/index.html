@@ -10,6 +10,8 @@
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
   <script src="https://unpkg.com/vue"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
 </head>
 <body>
     <div id="navDiv">
@@ -39,7 +41,7 @@
       <main>
         <div>
           <h1 class="apparentTemp">{{ Math.round(apparentTemperature) }}<span class="fareinheit">&deg;F</span></h1>
-          <h3>Precipitation: {{ precipProbability }} | Humidity: {{ humidity * 100}}%</h3>
+          <h3>Precipitation: {{ precipProbability }} | Humidity: {{ Math.round(humidity * 100) }}%</h3>
         </div>
         <div>
           <div><img :src="iconUrl(icon)" class="background-image" alt=""></div>
@@ -75,27 +77,42 @@
     <div id="hourly">
       <header>
         <h1>{{ summary }}</h1>
-        <img :src="getIcon(this.icon)" alt="">
+        <!-- <img :src="getIcon(this.icon)" alt=""> -->
       </header>
       <main>
-        <ul>
+        <!-- <ul>
           <li v-for="hour in hours">
             <img :src="getIcon(hour.icon)" alt=""> - {{ hour.summary }} - {{ hour.apparentTemperature }} - {{ getDate(hour.time) }}
           </li>
-        </ul>
+        </ul> -->
+        <div id="myDiv" style="width: 700px; height: 500px;"><!-- Plotly chart will be drawn inside this DIV --></div>
+
+        <!-- <table id="hourlyTable">
+          <thead>
+            <th>Hour</th>
+            <th>Temperature</th>
+          </thead>
+          <tbody>
+            <tr v-for="hour in hours">
+              <td class="column1">{{ getDate(hour.time) }}</td>
+              <td>{{ hour.apparentTemperature }}</td>
+            </tr>
+          </tbody>
+        </table> -->
       </main>
     </div>
     <div id="minutely">
       <header>
         <h1>{{ summary }}</h1>
-        <img :src="getIcon(this.icon)" alt="">
+        <!-- <img :src="getIcon(this.icon)" alt=""> -->
       </header>
       <main>
-        <ul>
+        <div id="myMinutelyDiv" style="width: 700px; height: 500px;">
+        <!-- <ul>
           <li v-for="minute in minutes">
             {{ minute.precipIntensity }} - {{ minute.precipProbability }} - {{ getDate(minute.time) }}
           </li>
-        </ul>
+        </ul> -->
       </main>
     </div>
 

@@ -173,6 +173,34 @@ var hourlyWidget = new Vue({
               this.summary = hourlyData.summary;
               this.icon = hourlyData.icon;
               this.hours = hourlyData.data;
+              var tableX = [];
+              var tableY = [];
+              for (i = 0; i < hourlyData.data.length; i+=1){
+                tableX.push(hourlyWidget.getDate(hourlyData.data[i].time));
+              }
+              for (i = 0; i < hourlyData.data.length; i+=1){
+                tableY.push(hourlyData.data[i].apparentTemperature);
+              }
+              var chart = {
+                x: tableX,
+                y: tableY,
+                type: 'scatter'
+              };
+              var data = [chart];
+              var layout = {
+                title: 'Hourly Temperature',
+                xaxis: {
+                  title: 'Time',
+                },
+                yaxis: {
+                  title: 'Temperature (&deg;F)',
+                },
+                margin: {
+                  b: 180
+                }
+              };
+              Plotly.newPlot('myDiv', data, layout);
+
             }.bind(this))
             .catch(function(errors){
               console.log(errors);
@@ -217,6 +245,48 @@ var minutelyWidget = new Vue({
               this.summary = minutelyData.summary;
               this.icon = minutelyData.icon;
               this.minutes = minutelyData.data;
+              var tableX = [];
+              var tableY_precipIntensity = [];
+              var tableY_precipProbability = [];
+              for (i = 0; i < minutelyData.data.length; i+=1){
+                tableX.push(minutelyWidget.getDate(minutelyData.data[i].time));
+              }
+              for (i = 0; i < minutelyData.data.length; i+=1){
+                tableY_precipIntensity.push(minutelyData.data[i].precipIntensity);
+              }
+              for (i = 0; i < minutelyData.data.length; i+=1){
+                tableY_precipProbability.push(minutelyData.data[i].precipProbability);
+              }
+              var chart1 = {
+                x: tableX,
+                y: tableY_precipIntensity,
+                type: 'scatter',
+                name: 'Intensity',
+                mode: 'markers',
+                marker: { size: 12 }
+              };
+              var chart2 = {
+                x: tableX,
+                y: tableY_precipProbability,
+                type: 'scatter',
+                name: 'Probability',
+                mode: 'markers',
+                marker: { size: 12 }
+              };
+              var layout = {
+                xaxis: {
+                  title: 'Time'
+                },
+                yaxis: {
+                  range: [0, 1]
+                },
+                margin: {
+                  b: 180
+                },
+                title:'Minutely Precipitation'
+              };
+              var data = [chart1, chart2];
+              Plotly.newPlot('myMinutelyDiv', data, layout);
             }.bind(this))
             .catch(function(errors){
               console.log(errors);
