@@ -66,6 +66,9 @@ var currentlyWidget = new Vue({
               currentlyWidget.apparentTemperature = response.data.currently.apparentTemperature;
               currentlyWidget.precipProbability = response.data.currently.precipProbability;
               currentlyWidget.humidity = response.data.currently.humidity;
+              if (currentlyWidget.icon === 'rain'){
+                   createRain();
+              }
             })//if i want to use this inside a function, then put .bind(this) at the end of the .then function
             .catch(function(err){
               console.log(err);

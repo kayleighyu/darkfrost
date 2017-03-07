@@ -20,6 +20,3 @@ function createRain() {
 
 }
 // Make it rain
-if(document.querySelector(".background-image").getAttribute("src") == '/images/clear-night.jpg'){
-   createRain();
- }
