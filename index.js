@@ -3,9 +3,9 @@ var server = express();
 var port = process.env.PORT || 8080;
 
 //apiKey
-var googleApiKey = require('./secrets').GeocodeAPIKey;
+var googleApiKey = process.env.DARK_API || require('./secrets').GeocodeAPIKey;
 
-var darkskyApiKey = require('./secrets').darkskyAPIKey;
+var darkskyApiKey = process.env.GOOG_API || require('./secrets').darkskyAPIKey;
 //axios
 var axios = require('axios');
 
